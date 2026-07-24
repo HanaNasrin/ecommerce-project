@@ -12,6 +12,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 
+from django.contrib.auth.decorators import login_required
+
 def login_view(request):
 
     if request.method == "POST":
@@ -291,4 +293,40 @@ def profile(request):
 
         }
 
+    )
+
+
+
+
+
+@login_required
+def payment(request):
+
+    cart = request.session.get("cart", {})
+
+    products = []
+
+    total = 0
+
+    for product_id, quantity in cart.items():
+
+        product = get_object_or_404(Product, id=product_id)
+
+        subtotal = product.price * quantity
+
+        total += subtotal
+
+        products.append({
+            "product": product,
+            "quantity": quantity,
+            "subtotal": subtotal,
+        })
+
+    return render(
+        request,
+        "shop/payment.html",
+        {
+            "products": products,
+            "total": total,
+        }
     )

@@ -18,4 +18,6 @@ urlpatterns = [
     path("password-reset/",auth_views.PasswordResetView.as_view(template_name="shop/password_reset.html"),name="password_reset"),
     path("register/",views.register,name="register"),
     path("profile/",views.profile,name="profile"),
+    path("payment/",views.payment,name="payment"
+),
 ]
