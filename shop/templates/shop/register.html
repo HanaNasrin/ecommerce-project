@@ -1,0 +1,168 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .register-page {
+        min-height: 75vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 15px;
+        background:
+            radial-gradient(circle at top left, rgba(0,123,255,0.10), transparent 30%),
+            radial-gradient(circle at bottom right, rgba(111,66,193,0.10), transparent 35%);
+    }
+
+    .register-card {
+        width: 100%;
+        max-width: 520px;
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid #e8edf5;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+    }
+
+    .register-header {
+        padding: 30px;
+        text-align: center;
+        color: white;
+        background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
+    }
+
+    .register-header .tag {
+        display: inline-block;
+        margin-bottom: 12px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.16);
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+
+    .register-header h2 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .register-header p {
+        margin-top: 10px;
+        font-size: 14px;
+        opacity: 0.95;
+    }
+
+    .register-body {
+        padding: 32px;
+    }
+
+    .register-body p {
+        margin-bottom: 16px;
+    }
+
+    .register-body label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #243447;
+    }
+
+    .register-body input,
+    .register-body select,
+    .register-body textarea {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid #d7deea;
+        border-radius: 12px;
+        background: #fff;
+        font-size: 15px;
+        outline: none;
+        transition: 0.2s ease;
+        box-sizing: border-box;
+    }
+
+    .register-body input:focus,
+    .register-body select:focus,
+    .register-body textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.12);
+    }
+
+    .register-body .errorlist {
+        list-style: none !important;
+        list-style-type: none !important;
+        margin: 0 !important;
+        padding-left: 0 !important;
+        color: #d93025;
+        font-size: 14px;
+    }
+
+    .register-body .errorlist li {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .register-body .errorlist li::marker,
+    .register-body .errorlist::marker {
+        content: none !important;
+    }
+
+    .register-btn {
+        width: 100%;
+        padding: 13px 16px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #007bff 0%, #0056d2 100%);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 10px 22px rgba(0, 123, 255, 0.22);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .register-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 28px rgba(0, 123, 255, 0.28);
+    }
+
+    @media (max-width: 576px) {
+        .register-header,
+        .register-body {
+            padding: 24px 20px;
+        }
+
+        .register-header h2 {
+            font-size: 26px;
+        }
+
+        .register-card {
+            border-radius: 18px;
+        }
+    }
+</style>
+
+<div class="register-page">
+    <div class="register-card">
+        <div class="register-header">
+            <div class="tag">Create Account</div>
+            <h2>Register</h2>
+            <p>Join our store and start shopping today.</p>
+        </div>
+
+        <div class="register-body">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit" class="register-btn">
+                    Register
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

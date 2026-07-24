@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">All Products</h2>
+
+    <!-- Search & Category Filter -->
+    <form method="GET" class="row mb-4">
+
+        <div class="col-md-5">
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search products..."
+                value="{{ request.GET.search }}">
+        </div>
+
+        <div class="col-md-4">
+            <select name="category" class="form-select">
+
+                <option value="">All Categories</option>
+
+                {% for category in categories %}
+
+                <option value="{{ category.id }}"
+                {% if request.GET.category == category.id|stringformat:"s" %}
+                    selected
+                {% endif %}>
+
+                    {{ category.name }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <button class="btn btn-primary w-100">
+                Search
+            </button>
+        </div>
+
+    </form>
+
+    <div class="row">
+
+        {% for product in products %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100">
+
+                {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     class="card-img-top"
+                     style="height:250px; object-fit:cover;">
+                {% else %}
+                <img src="https://via.placeholder.com/250x250?text=No+Image"
+                     class="card-img-top">
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5>{{ product.name }}</h5>
+
+                    <p>{{ product.description|truncatewords:15 }}</p>
+
+                    <h4>₹ {{ product.price }}</h4>
+
+                    <a href="{% url 'detail' product.pk %}"
+                       class="btn btn-success">
+                        View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+            <h4>No products found.</h4>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- Pagination -->
+
+    <div class="mt-4 text-center">
+
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="btn btn-secondary">First</a>
+
+            <a href="?page={{ page_obj.previous_page_number }}"
+               class="btn btn-secondary">
+               Previous
+            </a>
+        {% endif %}
+
+        <span class="mx-3">
+
+            Page {{ page_obj.number }}
+            of
+            {{ page_obj.paginator.num_pages }}
+
+        </span>
+
+        {% if page_obj.has_next %}
+
+            <a href="?page={{ page_obj.next_page_number }}"
+               class="btn btn-secondary">
+               Next
+            </a>
+
+            <a href="?page={{ page_obj.paginator.num_pages }}"
+               class="btn btn-secondary">
+               Last
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

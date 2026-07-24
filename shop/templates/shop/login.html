@@ -1,0 +1,224 @@
+
+
+
+
+
+
+
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .auth-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background:
+            radial-gradient(circle at top left, rgba(0,123,255,0.14), transparent 30%),
+            radial-gradient(circle at bottom right, rgba(111,66,193,0.12), transparent 35%),
+            linear-gradient(135deg, #f4f7fb 0%, #eef3f9 100%);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 440px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 22px;
+        box-shadow: 0 18px 50px rgba(31, 45, 61, 0.12);
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+    }
+
+    .auth-header {
+        padding: 28px 30px 18px;
+        text-align: center;
+        background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
+        color: #fff;
+    }
+
+    .auth-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.16);
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+
+    .auth-header h2 {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .auth-header p {
+        margin: 10px 0 0;
+        font-size: 14px;
+        opacity: 0.92;
+    }
+
+    .auth-body {
+        padding: 30px;
+    }
+
+    .auth-form p {
+        margin-bottom: 16px;
+    }
+
+    .auth-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #243447;
+    }
+
+    .auth-form input,
+    .auth-form select,
+    .auth-form textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #d7deea;
+        border-radius: 12px;
+        background: #fff;
+        outline: none;
+        font-size: 15px;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
+
+    .auth-form input:focus,
+    .auth-form select:focus,
+    .auth-form textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.12);
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 13px 16px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #007bff 0%, #0056d2 100%);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+        box-shadow: 0 10px 22px rgba(0, 123, 255, 0.22);
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 28px rgba(0, 123, 255, 0.28);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+        opacity: 0.96;
+    }
+
+    .error-box {
+        margin-top: 16px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: #fff5f5;
+        border: 1px solid #ffd1d1;
+        color: #d93025;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 24px 0 18px;
+        color: #8b97a7;
+        font-size: 13px;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #e4e9f0;
+    }
+
+    .auth-footer {
+        text-align: center;
+        font-size: 14px;
+        color: #5b6573;
+    }
+
+    .auth-footer a {
+        color: #007bff;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+        .auth-body,
+        .auth-header {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .auth-header h2 {
+            font-size: 26px;
+        }
+
+        .auth-card {
+            border-radius: 18px;
+        }
+    }
+</style>
+
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-badge">Secure Access</div>
+            <h2>Login</h2>
+            <p>Welcome back. Please sign in to continue.</p>
+        </div>
+
+        <div class="auth-body">
+            <form method="POST" class="auth-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit" class="submit-btn">
+                    Login
+                </button>
+            </form>
+
+            {% if form.errors %}
+                <div class="error-box">
+                    Invalid username or password.
+                </div>
+            {% endif %}
+
+            <div class="divider">or</div>
+
+            <p class="auth-footer">
+                Don't have an account?
+                <a href="{% url 'register' %}">Register here</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
