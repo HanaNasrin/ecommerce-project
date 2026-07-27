@@ -45,7 +45,9 @@ class HomeView(LoginRequiredMixin, ListView):
 
 # ---------------- Product List ----------------
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
+    login_url = 'login'
+    redirect_field_name = 'next'
     model = Product
     template_name = "shop/product_list.html"
     context_object_name = "products"
@@ -76,19 +78,24 @@ class ProductListView(ListView):
 
 # ---------------- Product Detail ----------------
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
+    login_url = 'login'
+    redirect_field_name = 'next'
     model = Product
     template_name = "shop/product_detail.html"
 
 
 # ---------------- Cart Page ----------------
 
-class CartView(TemplateView):
+class CartView(LoginRequiredMixin, TemplateView):
+    login_url = 'login'
+    redirect_field_name = 'next'
     template_name = "shop/cart.html"
 
 
 # ---------------- Add to Cart ----------------
 
+@login_required
 def add_to_cart(request, product_id):
 
     cart = Cart(request)
@@ -101,6 +108,7 @@ def add_to_cart(request, product_id):
 
 # ---------------- View Cart ----------------
 
+@login_required
 def cart_view(request):
 
     cart = request.session.get("cart", {})
@@ -146,6 +154,7 @@ def cart_view(request):
 
 # ---------------- Update Cart ----------------
 
+@login_required
 def update_cart(request, product_id):
 
     cart = Cart(request)
@@ -166,6 +175,7 @@ def update_cart(request, product_id):
 
 # ---------------- Remove from Cart ----------------
 
+@login_required
 def remove_from_cart(request, product_id):
 
     cart = Cart(request)
@@ -178,7 +188,9 @@ def remove_from_cart(request, product_id):
 
 
 
-class CheckoutView(View):
+class CheckoutView(LoginRequiredMixin, View):
+    login_url = 'login'
+    redirect_field_name = 'next'
 
     def get(self, request):
 

@@ -2,32 +2,183 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<style>
 
-    <h2>{{ product.name }}</h2>
+body{
+    background:#f5f7fb;
+}
 
-    {% if product.image %}
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="300">
-    {% else %}
-        <p>No image available</p>
-    {% endif %}
+.product-section{
+    max-width:1100px;
+    margin:50px auto;
+}
 
-    <p>{{ product.description }}</p>
+.product-card{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
 
-    <h3>₹ {{ product.price }}</h3>
+.product-image{
+    width:100%;
+    height:500px;
+    object-fit:cover;
+    border-radius:15px;
+}
 
-    <br>
+.image-box{
+    padding:25px;
+    background:#fafafa;
+}
 
-    <a href="{% url 'add_to_cart' product.id %}"
-    class="btn btn-success">
+.details-box{
+    padding:40px;
+}
 
-    Add To Cart
+.product-title{
+    font-size:40px;
+    font-weight:bold;
+    color:#222;
+    margin-bottom:20px;
+}
 
-    </a>
+.product-price{
+    font-size:36px;
+    color:#28a745;
+    font-weight:bold;
+    margin:25px 0;
+}
 
-    <a href="{% url 'products' %}" class="btn btn-secondary">
-        Back to Products
-    </a>
+.product-description{
+    font-size:17px;
+    color:#666;
+    line-height:1.8;
+}
+
+.btn-cart{
+    background:#198754;
+    color:white;
+    padding:14px 35px;
+    text-decoration:none;
+    border-radius:8px;
+    font-size:18px;
+    margin-right:15px;
+    transition:.3s;
+}
+
+.btn-cart:hover{
+    background:#157347;
+    color:white;
+}
+
+.btn-back{
+    background:#6c757d;
+    color:white;
+    padding:14px 35px;
+    text-decoration:none;
+    border-radius:8px;
+    font-size:18px;
+    transition:.3s;
+}
+
+.btn-back:hover{
+    background:#565e64;
+    color:white;
+}
+
+.badge-stock{
+    display:inline-block;
+    background:#d1e7dd;
+    color:#0f5132;
+    padding:8px 18px;
+    border-radius:20px;
+    margin-bottom:20px;
+    font-weight:bold;
+}
+
+</style>
+
+<div class="container product-section">
+
+<div class="card product-card">
+
+<div class="row g-0">
+
+<div class="col-lg-6">
+
+<div class="image-box">
+
+{% if product.image %}
+
+<img src="{{ product.image.url }}"
+    class="product-image"
+    alt="{{ product.name }}">
+
+{% else %}
+
+<img src="https://via.placeholder.com/600x500?text={{ product.name|urlencode }}"
+    class="product-image">
+
+{% endif %}
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="details-box">
+
+<span class="badge-stock">
+
+✔ Available
+
+</span>
+
+<h1 class="product-title">
+
+{{ product.name }}
+
+</h1>
+
+<p class="product-description">
+
+{{ product.description }}
+
+</p>
+
+<div class="product-price">
+
+₹ {{ product.price }}
+
+</div>
+
+<div class="mt-4">
+
+<a href="{% url 'add_to_cart' product.id %}"
+class="btn-cart">
+
+🛒 Add To Cart
+
+</a>
+
+<a href="{% url 'products' %}"
+class="btn-back">
+
+← Back to Products
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 

@@ -129,7 +129,7 @@
             {% if product.image %}
                 <img src="{{ product.image.url }}" alt="{{ product.name }}">
             {% else %}
-                <img src="https://via.placeholder.com/220x180?text=No+Image" alt="{{ product.name }}">
+                <img src="https://via.placeholder.com/220x180?text={{ product.name|urlencode }}" alt="{{ product.name }}">
             {% endif %}
             <div class="info">
                 <h3>{{ product.name }}</h3>

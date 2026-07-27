@@ -2,44 +2,202 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<style>
 
-    <h1>Order Placed Successfully</h1>
+.success-container{
+    max-width:900px;
+    margin:50px auto;
+}
 
-    <p>Thank you, {{ order.customer_name }}. Your order has been placed.</p>
+.success-card{
+    background:#fff;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
 
-    <div class="mb-4">
-        <p><strong>Order ID:</strong> {{ order.id }}</p>
-        <p><strong>Email:</strong> {{ order.customer_email }}</p>
-        <p><strong>Phone:</strong> {{ order.phone }}</p>
-        <p><strong>Address:</strong> {{ order.address }}, {{ order.city }} - {{ order.pincode }}</p>
-    </div>
+.success-icon{
+    width:90px;
+    height:90px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    background:#28a745;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:45px;
+}
 
-    <h3>Items</h3>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.product.name }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>₹ {{ item.product.price }}</td>
-                <td>₹ {{ item.subtotal }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+.success-title{
+    text-align:center;
+    color:#28a745;
+    margin-bottom:10px;
+}
 
-    <h4>Total: ₹ {{ total }}</h4>
+.success-text{
+    text-align:center;
+    color:#666;
+    margin-bottom:30px;
+}
 
-    <a href="/" class="btn btn-primary mt-4">Continue Shopping</a>
+.info-box{
+    background:#f8f9fa;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:30px;
+}
+
+.info-box p{
+    margin:8px 0;
+    font-size:16px;
+}
+
+.items-title{
+    margin-bottom:20px;
+    color:#333;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:25px;
+}
+
+table th{
+    background:#222;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+table tr:nth-child(even){
+    background:#f8f9fa;
+}
+
+.total-box{
+    text-align:right;
+    margin-top:20px;
+}
+
+.total-box h3{
+    color:#28a745;
+    font-size:28px;
+}
+
+.button-area{
+    text-align:center;
+    margin-top:30px;
+}
+
+.shop-btn{
+    background:#007bff;
+    color:white;
+    text-decoration:none;
+    padding:14px 30px;
+    border-radius:6px;
+    font-size:17px;
+    display:inline-block;
+    transition:.3s;
+}
+
+.shop-btn:hover{
+    background:#0056b3;
+}
+
+</style>
+
+<div class="success-container">
+
+<div class="success-card">
+
+<div class="success-icon">
+✓
+</div>
+
+<h1 class="success-title">
+Order Placed Successfully
+</h1>
+
+<p class="success-text">
+Thank you, <strong>{{ order.customer_name }}</strong>. Your order has been placed successfully.
+</p>
+
+<div class="info-box">
+
+<p><strong>Order ID :</strong> {{ order.id }}</p>
+
+<p><strong>Email :</strong> {{ order.customer_email }}</p>
+
+<p><strong>Phone :</strong> {{ order.phone }}</p>
+
+<p><strong>Address :</strong> {{ order.address }}, {{ order.city }} - {{ order.pincode }}</p>
+
+</div>
+
+<h2 class="items-title">
+Ordered Items
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Product</th>
+
+<th>Quantity</th>
+
+<th>Price</th>
+
+<th>Subtotal</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for item in items %}
+
+<tr>
+
+<td>{{ item.product.name }}</td>
+
+<td>{{ item.quantity }}</td>
+
+<td>₹ {{ item.product.price }}</td>
+
+<td>₹ {{ item.subtotal }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+<div class="total-box">
+
+<h3>
+Grand Total : ₹ {{ total }}
+</h3>
+
+<div class="button-area">
+
+<a href="/" class="shop-btn">Continue Shopping</a>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
