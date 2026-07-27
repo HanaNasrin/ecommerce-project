@@ -58,8 +58,12 @@
         padding: 32px;
     }
 
-    .register-body p {
-        margin-bottom: 16px;
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group:last-child {
+        margin-bottom: 0;
     }
 
     .register-body label {
@@ -75,13 +79,14 @@
     .register-body textarea {
         width: 100%;
         padding: 13px 14px;
-        border: 1px solid #d7deea;
+        border: 2px solid #d7deea;
         border-radius: 12px;
         background: #fff;
         font-size: 15px;
         outline: none;
         transition: 0.2s ease;
         box-sizing: border-box;
+        font-family: inherit;
     }
 
     .register-body input:focus,
@@ -91,18 +96,46 @@
         box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.12);
     }
 
+    .register-body input[type="password"]:focus {
+        border-color: #007bff;
+    }
+
+    /* Error states */
+    .form-group.has-error input,
+    .form-group.has-error select,
+    .form-group.has-error textarea {
+        border-color: #dc3545;
+        background-color: #fff5f5;
+    }
+
+    .form-group.has-error input:focus,
+    .form-group.has-error select:focus,
+    .form-group.has-error textarea:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.12);
+    }
+
+    .error-message {
+        color: #dc3545;
+        font-size: 13px;
+        margin-top: 6px;
+        display: block;
+        font-weight: 500;
+    }
+
     .register-body .errorlist {
         list-style: none !important;
         list-style-type: none !important;
-        margin: 0 !important;
+        margin: 6px 0 0 0 !important;
         padding-left: 0 !important;
-        color: #d93025;
-        font-size: 14px;
+        color: #dc3545;
+        font-size: 13px;
     }
 
     .register-body .errorlist li {
-        margin: 0 !important;
+        margin: 4px 0 !important;
         padding: 0 !important;
+        font-weight: 500;
     }
 
     .register-body .errorlist li::marker,
@@ -121,17 +154,89 @@
         font-weight: 600;
         cursor: pointer;
         box-shadow: 0 10px 22px rgba(0, 123, 255, 0.22);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+        margin-top: 10px;
     }
 
-    .register-btn:hover {
+    .register-btn:hover:not(:disabled) {
         transform: translateY(-1px);
         box-shadow: 0 14px 28px rgba(0, 123, 255, 0.28);
     }
 
+    .register-btn:active:not(:disabled) {
+        transform: translateY(0);
+    }
+
+    .register-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    .register-footer {
+        text-align: center;
+        padding: 0 32px 24px;
+        border-top: 1px solid #e8edf5;
+    }
+
+    .register-footer p {
+        margin: 0;
+        font-size: 14px;
+        color: #5a6c7d;
+    }
+
+    .register-footer a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+
+    .register-footer a:hover {
+        color: #0056d2;
+        text-decoration: underline;
+    }
+
+    .password-info {
+        background: #f0f4f9;
+        border-left: 4px solid #007bff;
+        padding: 12px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        color: #495057;
+        margin-top: 6px;
+    }
+
+    .password-info strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #243447;
+    }
+
+    .password-info ul {
+        margin: 0;
+        padding-left: 18px;
+        font-size: 12px;
+    }
+
+    .password-info li {
+        margin: 2px 0;
+    }
+
+    .non-field-errors {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        padding: 12px 14px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
     @media (max-width: 576px) {
         .register-header,
-        .register-body {
+        .register-body,
+        .register-footer {
             padding: 24px 20px;
         }
 
@@ -139,8 +244,20 @@
             font-size: 26px;
         }
 
+        .register-header p {
+            font-size: 13px;
+        }
+
         .register-card {
             border-radius: 18px;
+        }
+
+        .register-body {
+            padding: 24px 20px;
+        }
+
+        .register-footer {
+            padding: 16px 20px;
         }
     }
 </style>
@@ -154,15 +271,79 @@
         </div>
 
         <div class="register-body">
-            <form method="POST">
+            {% if form.non_field_errors %}
+                <div class="non-field-errors">
+                    {% for error in form.non_field_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" novalidate>
                 {% csrf_token %}
-                {{ form.as_p }}
+
+                {% for field in form %}
+                    {% if field.name != "password2" %}
+                        <div class="form-group {% if field.errors %}has-error{% endif %}">
+                            <label for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                                {% if field.field.required %}<span style="color: #dc3545;">*</span>{% endif %}
+                            </label>
+
+                            {% if field.help_text and field.name == "password1" %}
+                                {{ field }}
+                                <div class="password-info">
+                                    <strong>Password Requirements:</strong>
+                                    <ul>
+                                        <li>At least 8 characters long</li>
+                                        <li>Not entirely numeric</li>
+                                        <li>Mix of letters, numbers & symbols</li>
+                                    </ul>
+                                </div>
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <span class="error-message">{{ error }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    {% elif field.name == "password2" %}
+                        <div class="form-group {% if field.errors %}has-error{% endif %}">
+                            <label for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                                {% if field.field.required %}<span style="color: #dc3545;">*</span>{% endif %}
+                            </label>
+                            {{ field }}
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <span class="error-message">{{ error }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
 
                 <button type="submit" class="register-btn">
-                    Register
+                    Create Account
                 </button>
             </form>
         </div>
+
+        <div class="register-footer">
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+        </div>
     </div>
 </div>
+
+<script>
+    // Add form submission feedback
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const btn = document.querySelector('.register-btn');
+        btn.disabled = true;
+        btn.textContent = 'Creating Account...';
+    });
+</script>
 {% endblock %}
