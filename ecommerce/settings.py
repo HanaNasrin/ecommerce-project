@@ -29,11 +29,10 @@ SECRET_KEY = 'django-insecure-xb-51_akfv*j1xoy9h@xtaz_k-$yww+)h1$udvjfnj!6av)ozj
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "ecommerce-project-2-g2mi.onrender.com",
     "localhost",
     "127.0.0.1",
+    ".onrender.com",
 ]
-
 
 # Application definition
 
