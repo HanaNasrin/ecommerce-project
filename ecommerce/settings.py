@@ -28,7 +28,11 @@ SECRET_KEY = 'django-insecure-xb-51_akfv*j1xoy9h@xtaz_k-$yww+)h1$udvjfnj!6av)ozj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "ecommerce-project-2-g2mi.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -129,4 +133,7 @@ LOGOUT_REDIRECT_URL = "login"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
+
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
